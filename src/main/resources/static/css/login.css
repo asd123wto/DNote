@@ -41,6 +41,7 @@ body{
     line-height: 7rem;
     font-size: 5.5rem;
     display: table;
+    padding-right: 140px;
     padding-bottom: 20px;
 }
 .logo-text strong{
@@ -114,7 +115,7 @@ body{
     box-sizing: border-box;
 }
 
-.reg button{
+.switcher button{
     float: right;
 }
 
@@ -128,19 +129,31 @@ body{
     transition-duration: .3s;
 }
 
-.login button{
+.login button, .reg button{
     background-color: white;
 }
 
-.login button:active{
+.login button:active, .reg button:active{
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.reg button{
+.switcher button{
     background-color: transparent;
     color: white;
 }
 
-.reg button:active{
+.switcher button:active{
     background-color: rgba(255, 255, 255, 0.4);
+}
+
+.form{
+    display: none;
+}
+
+.form.current{
+    display: block;
+}
+
+.form .tip, .form .tip a{
+    color: white;
 }

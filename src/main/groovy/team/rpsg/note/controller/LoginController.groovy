@@ -1,6 +1,6 @@
 package team.rpsg.note.controller
 
-import org.json.JSONObject
+import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.BoundHashOperations
 import org.springframework.data.redis.core.RedisTemplate
@@ -8,21 +8,74 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import team.rpsg.note.mapper.UserMapper
+import team.rpsg.note.pojo.User
+import team.rpsg.note.util.JSON
+import team.rpsg.note.util.MD5
+import team.rpsg.note.util.Response
+import team.rpsg.note.util.Token
 
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-class LoginController {
+class LoginController{
 
-    @Autowired UserMapper userMapper
-    @Autowired RedisTemplate<String, Object> template
+    @Autowired
+    UserMapper userMapper
+    @Autowired
+    RedisTemplate<String, Object> template
 
-    @RequestMapping(path = "/login")
+    @RequestMapping(path = "/tologin")
     @ResponseBody
-    String login(HttpServletRequest request) {
-        BoundHashOperations<String, String, Object> map = template.boundHashOps("session: q")
+    login(String username, String password, HttpServletRequest request) {
+        def user = userMapper.getByUsername(username)
+
+        if(!user)
+            return Response.failed("用户不存在")
+
+
+        if(user.password != MD5.parse(password))
+            return Response.failed("密码错误")
+
+        def token = Token.get(user.id)
+
+        user.password = null
+
+        BoundHashOperations<String, String, Object> map = template.boundHashOps("session:" + user.id)
+        map.put "token", token
+        map.put "user", JSON.stringify(user)
+
+        Response.success([token: token, uid: user.id, nickname: user.nickname])
 
     }
 
+    @RequestMapping(path = "/toreg")
+    @ResponseBody
+    reg(String key, String mail, String username, String nickname, String password) {
+
+        if(!key || !mail || !username || !nickname || !password)
+            return Response.failed("naive")
+
+        if(userMapper.getByMail(mail))
+            return Response.failed("这个邮箱已经注册过了")
+
+        if(userMapper.getByUsername(username))
+            return Response.failed("这个用户名已经注册过了")
+
+        if(key != "whosyourdaddy")
+            return Response.failed("口令错误")
+
+        def user = new User()
+
+        user.username = username
+        user.mail = mail
+        user.nickname = nickname
+        user.password = MD5.parse(password)
+        user.vip = 0
+
+        userMapper.insert user
+
+        Response.success(null)
+
+    }
 
 }

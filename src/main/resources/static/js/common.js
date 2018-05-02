@@ -4,12 +4,15 @@ let RPSG = {
         let callback = _callback || options.success;
 
         let data = options.data || {};
-        let type = options.type || "get";
+        let type = options.type || "post";
 
         let postCode = options.postCode || true;
 
         if(options.load === undefined || options.load === true)
             layer.load(1, {shade: false});
+
+        if(options.loginRequired === undefined || options.loginRequired === true)
+            data.token = RPSG.cookies.get("token")
 
         $.ajax({
             url: url,
@@ -54,22 +57,30 @@ let RPSG = {
         return $("<div></div>").addClass("tmpled").addClass(id).insertAfter(after).hide().html(template(id, data)).fadeIn("normal");
     },
 
+    isLogin: () => !!RPSG.cookies.get("token"),
+
     login: (username, password, callback) => {
         RPSG.logout()
         RPSG.get({
-            url: "/login",
+            url: "/tologin",
             data: {
                 username: username,
                 password: password
             },
-            callback: function (data) {
+            success: function (data) {
                 RPSG.cookies.set("token", data.token);
+                RPSG.cookies.set("uid", data.uid);
+                RPSG.cookies.set("nickname", data.nickname);
                 callback && callback();
             }
         })
     },
 
-    logout: () => RPSG.cookies.remove("token"),
+    logout: withTarget => {
+        RPSG.cookies.remove(["token", "uid", "nickname"])
+        if(withTarget)
+            location.href = "/login.html";
+    },
 
     cookies: {
         set: (key, value, days) => {

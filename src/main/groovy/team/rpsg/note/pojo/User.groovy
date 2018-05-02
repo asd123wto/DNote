@@ -3,21 +3,12 @@ package team.rpsg.note.pojo;
 
 
 class User {
-    int id
-    String username
-    String password
-    String nickname
-    String mail
-    int vip
+    public int id
+    public String username
+    public String password
+    public String nickname
+    public String mail
+    public int vip
 
-    String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", mail='" + mail + '\'' +
-                ", vip=" + vip +
-                '}';
-    }
+
 }
