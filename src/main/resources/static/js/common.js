@@ -9,7 +9,7 @@ let RPSG = {
         let postCode = options.postCode || true;
 
         if(options.load === undefined || options.load === true)
-            layer.load(1, {shade: false});
+            layer.load(1, {shade: false, offset: 'rb'});
 
         if(options.loginRequired === undefined || options.loginRequired === true)
             data.token = RPSG.cookies.get("token")

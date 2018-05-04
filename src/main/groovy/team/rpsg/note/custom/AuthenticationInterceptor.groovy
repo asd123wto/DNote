@@ -25,6 +25,7 @@ class AuthenticationInterceptor implements HandlerInterceptor{
             return true
 
         HandlerMethod handlerMethod = (HandlerMethod) handler
+
         def token = request.getParameter "token"
         if(token){
             def uid = token.split("n")[0]

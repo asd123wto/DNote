@@ -10,7 +10,7 @@ import team.rpsg.note.pojo.User
 @Mapper
 public interface DirMapper {
 
-    @Select("select * from dir where user = #{user} and parent = #{parentId}")
+    @Select("select * from dir where user = #{user} and parent = #{parentId} order by type")
     List<Dir> list(@Param("user") Long user, @Param("parentId") Long parentId)
 
 }

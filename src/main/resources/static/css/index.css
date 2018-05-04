@@ -113,8 +113,12 @@ header{
 }
 
 
-.tree, .tree-icon{
+.tree, .tree-icon, .tree, .icon-edit{
     transition-property: background-color;
+    transition-duration: 0.3s;
+}
+.tree .icon-edit{
+    transition-property: box-shadow;
     transition-duration: 0.3s;
 }
 .tree {
@@ -123,8 +127,7 @@ header{
     cursor: pointer!important;
 }
 
-.tree:hover {
-}
+.tree:active {background: #7b7b7b;}
 
 .tree>* {
     display: inline-block;
@@ -164,7 +167,7 @@ header{
     margin-right: 0;
 }
 
-.tree-icon:hover, .tip .tree-icon.hover{
+.tree-icon:hover, .tip .tree-icon.hover,.tree .icon-edit:hover{
     background: #7d7d7d;
 }
 
@@ -192,4 +195,38 @@ header{
 
 .tip .tree-name .nickname {
     margin-left: 8px;
+}
+
+
+.tree-name {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: calc(100% - 92px);
+    vertical-align: middle;
+}
+
+.tree.root {
+    background: #6b6b6b!important;
+}
+
+.tree.fold, .root{
+    box-shadow: 0 4px 7px #00000033;
+    z-index: 9;
+    position: relative;
+}
+
+.tree-children>.tree-outer:last-child .tree:not(.fold) {
+    box-shadow: inset 0 -8px 17px -6px #0000004f;
+}
+
+.subtitle{
+    display: inline-block;
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.tree-children>.tree-outer:last-child .tree:not(.fold) .tree-icon:hover {
+    box-shadow: inset 0 -8px 17px -6px #0000004f;
 }

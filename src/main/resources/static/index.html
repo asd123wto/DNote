@@ -17,7 +17,7 @@
 <body>
 
     <header>
-        <div class="logo-text"><strong>D</strong>-NOTE</div>
+        <div class="logo-text"><strong>D</strong>-NOTE<div class="subtitle">写给过去的自己</div></div>
 
         <div class="header-right">
             <div class="nickname"></div>
@@ -30,13 +30,17 @@
 
             <script type="text/html" id="treetmpl">
                 <div class="tree-outer" treeid="{{id}}" left="{{left}}" parentId="{{parentId}}">
-                    <div class="tree" style="padding-left:{{left * 25}}px">
+                    <div class="tree {{if left == -1}}root{{/if}}" style="padding-left:{{left * 25}}px;background: rgb({{color}}, {{color}}, {{color}})">
                         <i class="tree-icon iconfont {{icon}}"></i>
-                        <div class="tree-name nickname">{{text}}</div>
-                        <i class="iconfont icon-less fold"></i>
+                        <div class="tree-name">{{text}}</div>
+                        {{if type === 0}}
+                            <i class="iconfont icon-less fold"></i>
+                        {{else}}
+                            <i class="iconfont icon-edit fold"></i>
+                        {{/if}}
                     </div>
                     <div class="tree-children">
-                </div>
+                    </div>
                 </div>
             </script>
 
