@@ -2,19 +2,57 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>RPSG BT</title>
+    <title>D-NOTE</title>
+    <link rel="stylesheet" defer href="css/global.css" type="text/css"/>
+    <link rel="stylesheet" defer href="css/index.css" type="text/css"/>
     <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/layer/layer.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/art.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/common.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/index.js" charset="utf-8"></script>
+
     <meta http-equiv="Pragma" contect="no-cache"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
-    ：）
-    <a href="javascript:RPSG.logout(true)">logout()</a>
-    <footer>
-    </footer>
+
+    <header>
+        <div class="logo-text"><strong>D</strong>-NOTE</div>
+
+        <div class="header-right">
+            <div class="nickname"></div>
+            <div class="button" title="注销" onclick="RPSG.logout(true)"><i class="icon-logout iconfont"></i></div>
+        </div>
+    </header>
+
+    <div class="out-container">
+        <div class="inset-container left-container">
+
+            <script type="text/html" id="treetmpl">
+                <div class="tree-outer" treeid="{{id}}" left="{{left}}" parentId="{{parentId}}">
+                    <div class="tree" style="padding-left:{{left * 25}}px">
+                        <i class="tree-icon iconfont {{icon}}"></i>
+                        <div class="tree-name nickname">{{text}}</div>
+                        <i class="iconfont icon-less fold"></i>
+                    </div>
+                    <div class="tree-children">
+                </div>
+                </div>
+            </script>
+
+        </div>
+
+        <div class="inset-container right-container">
+            <div class="tip">
+                在左侧新建一篇笔记以进行编辑
+                <div class="tree">
+                    <i class="tree-icon iconfont icon-40one fade"></i>
+                    <div class="tree-name"><span class="nickname"></span>'s D-NOTE</div>
+                    <i class=" iconfont icon-moreunfold fold"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

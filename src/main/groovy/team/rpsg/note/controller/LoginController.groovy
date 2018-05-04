@@ -69,12 +69,12 @@ class LoginController{
         user.username = username
         user.mail = mail
         user.nickname = nickname
-        user.password = MD5.parse(password)
+        user.password = MD5.parse password
         user.vip = 0
 
         userMapper.insert user
 
-        Response.success(null)
+        Response.success()
 
     }
 

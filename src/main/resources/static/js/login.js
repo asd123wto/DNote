@@ -44,7 +44,21 @@ $(".reg button").click(() => {
     })
 });
 
+if(RPSG.isLogin())
+    animateLogin()
 
 function animateLogin() {
-    location.href = "/index.html"
+    $(".login-outer").addClass("element-animation")
+    $("#username").text(RPSG.cookies.get("nickname"))
+
+    setTimeout(() => {
+        $(".login-inset-login").addClass("hide");
+        $(".login-inset-tip").show();
+        $(".head").addClass("bounce")
+
+        setTimeout(() => {
+            location.href = "/index.html"
+        }, 1200)
+    }, 300);
+
 }

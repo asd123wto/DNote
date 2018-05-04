@@ -2,8 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>RPSG BT</title>
+    <title>D-NOTE</title>
     <link rel="stylesheet" defer href="css/login.css" type="text/css"/>
+    <link rel="stylesheet" defer href="css/global.css" type="text/css"/>
     <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/art.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/layer/layer.js" charset="utf-8"></script>
@@ -16,29 +17,39 @@
 <body>
     <div class="v-center-outer">
         <div class="v-center">
-           <div class="login-outer">
-               <div class="logo-text"><strong>D</strong>-NOTE</div>
-               <div class="beta">BETA</div>
-               <form class="form login-form current" validate>
-                   <div class="text-field"><input name="username" type="text" placeholder="用户名" check="empty character"/></div>
-                   <div class="text-field"><input name="password" type="password" placeholder="密码" check="empty"/></div>
-                   <div class="buttons">
-                       <div class="login"><button type="button">登录</button></div>
-                       <div class="switcher"><button type="button">注册</button></div>
+           <div class="login-outer ">
+               <div class="login-inset-tip">
+                   欢迎回来，
+                   <div id="username">test</div>
+                   <div class="tip">正在打开DNote……</div>
+                   <div class="head">
+                       <img src="image/head.png"/>
                    </div>
-               </form>
-               <form class="form reg-form" validate>
-                   <div class="tip">DNOTE暂不对外开放，完成注册需要输入口令，<a href="https://weibo.com/2689640062/profile" target="_blank">联系我</a></div>
-                   <div class="text-field"><input name="key" type="text" placeholder="口令" check="empty"/></div>
-                   <div class="text-field"><input name="username" type="text" placeholder="用户名" check="empty character"/></div>
-                   <div class="text-field"><input name="mail" type="text" placeholder="邮箱" check="empty email"/></div>
-                   <div class="text-field"><input name="nickname" type="text" placeholder="昵称" check="empty"/></div>
-                   <div class="text-field"><input name="password" type="password" placeholder="密码" check="empty"/></div>
-                   <div class="buttons">
-                       <div class="reg"><button type="button">注册</button></div>
-                       <div class="switcher"><button type="button">返回</button></div>
-                   </div>
-               </form>
+               </div>
+               <div class="login-inset-login">
+                   <div class="logo-text"><strong>D</strong>-NOTE</div>
+                   <div class="beta">ALPHA TEST</div>
+                   <form class="form login-form current" validate>
+                       <div class="text-field"><input name="username" type="text" placeholder="用户名" check="empty character"/></div>
+                       <div class="text-field"><input name="password" type="password" placeholder="密码" check="empty"/></div>
+                       <div class="buttons">
+                           <div class="login"><button type="button">登录</button></div>
+                           <div class="switcher"><button type="button">注册</button></div>
+                       </div>
+                   </form>
+                   <form class="form reg-form" validate>
+                       <div class="tip">DNOTE暂不对外开放，完成注册需要输入口令，<a href="https://weibo.com/2689640062/profile" target="_blank">联系我</a></div>
+                       <div class="text-field"><input name="key" type="text" placeholder="口令" check="empty"/></div>
+                       <div class="text-field"><input name="username" type="text" placeholder="用户名" check="empty character"/></div>
+                       <div class="text-field"><input name="mail" type="text" placeholder="邮箱" check="empty email"/></div>
+                       <div class="text-field"><input name="nickname" type="text" placeholder="昵称" check="empty"/></div>
+                       <div class="text-field"><input name="password" type="password" placeholder="密码" check="empty"/></div>
+                       <div class="buttons">
+                           <div class="reg"><button type="button">注册</button></div>
+                           <div class="switcher"><button type="button">返回</button></div>
+                       </div>
+                   </form>
+               </div>
            </div>
         </div>
     </div>

@@ -8,6 +8,10 @@ class Response {
         JSON.stringify([code: 0, message: "success", data: obj])
     }
 
+    static String success(){
+        Response.success(null)
+    }
+
     static failed(int code, String message) {
         JSON.stringify([code: code, message: message])
     }
