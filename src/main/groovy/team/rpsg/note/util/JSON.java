@@ -2,8 +2,6 @@ package team.rpsg.note.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import groovy.transform.CompileStatic;
-import groovy.transform.TypeChecked;
 
 
 public class JSON {

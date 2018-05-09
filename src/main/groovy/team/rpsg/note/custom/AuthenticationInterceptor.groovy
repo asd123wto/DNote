@@ -1,7 +1,5 @@
 package team.rpsg.note.custom
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.BoundHashOperations
 import org.springframework.data.redis.core.RedisTemplate

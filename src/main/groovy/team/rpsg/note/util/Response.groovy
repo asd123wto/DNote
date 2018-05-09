@@ -1,7 +1,5 @@
 package team.rpsg.note.util
 
-import com.google.gson.Gson
-
 class Response {
 
     static String success(Object obj) {
