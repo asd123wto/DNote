@@ -1,3 +1,36 @@
+class UploadAdapter {
+    constructor(loader) {
+        this.loader = loader;
+    }
+    upload() {
+        return new Promise((resolve, reject) => {
+            const data = new FormData();
+            data.append('img', this.loader.file);
+            data.append('token', RPSG.cookies.get("token"));
+            $.ajax({
+                url: 'image/upload',
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: result => {
+                	if(result.code !== 0){
+                		RPSG.tip(i18n.current["errorimg"])
+                		return reject(i18n.current["errorimg"])
+					}
+
+					resolve({default: "image/get/" + result.data.fileName});
+                }
+            });
+
+        });
+    }
+    abort() {
+    }
+}
+
+
 if(!RPSG.isLogin())
     location.replace("/login.html")
 
@@ -104,63 +137,57 @@ Note = {
         return dom[0]
     },
     icon: {
-        root: "icon-40one",
-        "0": "icon-wenjianjia",
-        "1": "icon-wenjian",
+        root: "fa fa-plus-circle",
+        "0": "iconfont icon-wenjianjia",
+        "1": "iconfont icon-wenjian",
     },
 	edit: id => {
+    	window._current = undefined
+
     	$(".mission-tip").hide();
     	$(".editor-outer").show();
 
     	if(isMobile())
     		$(".button.op").click()
 
-		$.FroalaEditor.DefineIcon('save', { NAME: 'save: fa-save'})
-		$.FroalaEditor.RegisterCommand('save', {
-			title: i18n.current.save + " (Ctrl+S)",
-			icon: 'save',
-			focus: true,
-			showOnMobile: true,
-			refreshAfterCallback: true,
-			callback: function () {
-				let title =  $("#title input").val() || i18n.current["newfile"]
-				RPSG.get({
-					url: "posts/save",
-					data: {id: id, title: "test", content: $("#editor").froalaEditor("html.get"), title: title},
-					success: d => {
-						RPSG.tip(i18n.current["saved"])
-						$("div[treeid='" + id + "'] .tree-name").text(title)
-					}
-				})
+		let editorLoaded = () => {
+            RPSG.get({
+                url: "posts/get",
+                data: {id: id},
+                success: data => {
+                	_editor.setData(data.content)
+                    $("#title input").val(data.title)
+
+                    window._current = id
+                }
+            })
+		}
+
+		if(window._editor)
+			return editorLoaded()
+
+        window._editor = true;
+
+        DecoupledEditor.create(document.getElementById("editor"), {
+            fontFamily: {
+            	options: window.font
 			},
-			refresh: function ($btn) {}
-		});
+			language: i18n.isEn() ? undefined : "zh-cn"
+		}).then(editor => {
+            const toolbarContainer = document.querySelector('#toolbar-container');
+            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+            window._editor = editor
 
-		$.FroalaEditor.RegisterShortcut(83, 'save', '1');
+            editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+                return new UploadAdapter(loader);
+            };
 
-		$("#editor").froalaEditor({
-			height: isMobile() ? undefined : getEditorHeight(),
-			heightMin: getEditorHeight(),
-			theme: "dark",
-			toolbarButtons: ['save', 'fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'embedly', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo'],
-			pluginsEnabled: ['align', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'quote', 'table', 'url', 'wordPaste'],
-			language: i18n.get(),
-			fontFamily: font,
-			fontFamilyDefaultSelection: "Microsoft YaHei",
-			shortcutsEnabled: ['save', 'show', 'bold', 'italic', 'underline', 'indent', 'outdent', 'undo', 'redo', 'insertImage', 'createLink'],
-			pasteAllowLocalImages: true
-		})
+            onresize()
 
-		window._editor = $("#editor").data("froala.editor");
+			editorLoaded()
+		}).catch(err => console.error(err))
 
-		RPSG.get({
-			url: "posts/get",
-			data: {id: id},
-			success: data => {
-				$("#editor").froalaEditor("html.set", data.content)
-				$("#title input").val(data.title)
-			}
-		})
+
 	},
 
 	vcreate: (type, parentId) => {
@@ -301,27 +328,57 @@ function onload() {
 		$(".context-menu-mask").remove()
 	})
 	
-	$(window).resize(() => {
-		if(window._editor && !isMobile()){
-			_editor.opts.height = getEditorHeight()
-			_editor.size.refresh();
-		}
-	})
+	$(window).resize(onresize)
 
-	window.font = {
-		'Arial,Helvetica,sans-serif': 'Arial',
-		'Georgia,serif': 'Georgia',
-		'Impact,Charcoal,sans-serif': 'Impact',
-		'Tahoma,Geneva,sans-serif': 'Tahoma',
-		"'Times New Roman',Times,serif": 'Times New Roman',
-		'Verdana,Geneva,sans-serif': 'Verdana',
-	}
+	window.font = [
+		'default',
+		'Arial,Helvetica,sans-serif',
+		'Georgia,serif',
+		'Impact,Charcoal,sans-serif',
+		'Tahoma,Geneva,sans-serif',
+		"'Times New Roman',Times,serif",
+		'Verdana,Geneva,sans-serif',
+	]
 
 	for(let f of i18n.current.font)
-		font[f.key] = f.value
+		font.push(f.value)
+
+	$(".save-button").click(save)
+
+    $(window).keydown(event => {
+		if((event.ctrlKey || event.metaKey) && event.which === 83) {
+			save()
+			event.preventDefault();
+			return false;
+		}
+	});
 }
 
 
 function getEditorHeight() {
-	return $(window).height() - 122 - 43
+	return $(window).height() - 128 - 1
+}
+
+function onresize() {
+    if(window._editor && !isMobile()){
+        $(".ck-editor__editable").css({
+            minHeight: getEditorHeight(),
+            maxHeight: getEditorHeight()
+        })
+    }
+}
+
+function save() {
+	if(!window._editor || !window._current)
+		return;
+
+    let title =  $("#title input").val() || i18n.current["newfile"]
+    RPSG.get({
+        url: "posts/save",
+        data: {id: window._current, title: title, content: window._editor.getData()},
+        success: d => {
+            RPSG.tip(i18n.current["saved"])
+            $("div[treeid='" + window._current + "'] .tree-name").text(title)
+        }
+    })
 }

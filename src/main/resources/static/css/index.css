@@ -135,7 +135,7 @@ header{
     display: inline-block;
 }
 
-.tree .iconfont {
+.tree .iconfont, .tree .fa {
     padding: 13px;
 }
 
@@ -208,7 +208,7 @@ header{
     white-space: nowrap;
     text-overflow: ellipsis;
     width: calc(100% - 92px);
-    vertical-align: middle;
+    vertical-align: -3px;
 }
 
 .tree-rename{
@@ -311,6 +311,7 @@ button[data-cmd="save"]:active {
     outline: none;
     transition-duration: 0.3s;
     transition-property: background-color;
+    padding-left: 112px;
 }
 
 #title input:focus{
@@ -319,8 +320,8 @@ button[data-cmd="save"]:active {
 
 
 ::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
+    width: 5px;
+    height: 5px;
 }
 ::-webkit-scrollbar-button {
     width: 0px;
@@ -335,7 +336,7 @@ button[data-cmd="save"]:active {
     background: #ffffff;
 }
 ::-webkit-scrollbar-thumb:active {
-    background: #000000;
+    background: #777;
 }
 ::-webkit-scrollbar-track {
     background: #666666;
@@ -522,11 +523,10 @@ body:after{
         height: auto;
         max-height: initial;
     }
-    /**...等我开发完了才知道froala收费……不是community版么？*/
-    a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
-        display: none !important;
-        position: absolute;
-        top: -99999999px;
+
+    .editor-outer {
+        overflow-x: hidden;
+        overflow-y: visible;
     }
 
 
@@ -537,4 +537,42 @@ body:after{
         display: none;
     }
 
+}
+
+.context-menu i{
+    margin-right: 10px;
+}
+
+.root i.tree-icon.fa.fa-plus-circle.hover-icon {
+    font-size: 17px;
+}
+
+button.save-button {
+    position: absolute;
+    line-height: 42px;
+    border: 0;
+    padding: 0px 20px;
+    font-size: 16px;
+    color: white;
+    background: #7c7c7c;
+    cursor: pointer;
+    height: 43px;
+    outline: none;
+    transition-duration: 0.3s;
+    transition-property: background-color;
+}
+
+.save-button span {
+    padding-left: 13px;
+}
+
+.tree.root {
+    height: 43px;
+}
+
+button.save-button:hover{
+    background: #868686;
+}
+button.save-button:active{
+    background: #1a1a1a;
 }

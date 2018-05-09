@@ -3,6 +3,7 @@ package team.rpsg.note
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.web.servlet.MultipartConfigFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import team.rpsg.note.custom.AuthenticationInterceptor
 import team.rpsg.note.custom.UserMethodArgumentResolver
+
+import javax.servlet.MultipartConfigElement
 
 @SpringBootApplication
 @Configuration
@@ -67,4 +70,11 @@ class NoteApplication extends WebMvcConfigurerAdapter{
 		registry.addMapping("/**").allowedOrigins("*");
 	}
 
+	@Bean
+	MultipartConfigElement multipartConfigElement() {
+		MultipartConfigFactory factory = new MultipartConfigFactory()
+		factory.setMaxFileSize("10240KB")
+		factory.setMaxRequestSize("102400KB")
+		return factory.createMultipartConfig()
+	}
 }

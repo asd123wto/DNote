@@ -1,3 +1,6 @@
+div,span,input{
+  font-family: "Microsoft YaHei";
+}
 @font-face {font-family: "iconfont";
   src: url('iconfont.eot?t=1525398602174'); /* IE9*/
   src: url('iconfont.eot?t=1525398602174#iefix') format('embedded-opentype'), /* IE6-IE8 */

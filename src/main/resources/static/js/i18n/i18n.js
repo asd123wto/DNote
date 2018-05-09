@@ -15,11 +15,7 @@ window.i18n = {
 		};
 
 		if(i18n[langName] === undefined)
-			return loadScript("/js/i18n/" + langName + ".js", () => {
-				if($.FroalaEditor)
-					return loadScript("/js/froala/js/languages/" + i18n.get(langName) + ".js", loaded)
-				loaded()
-			})
+			return loadScript("/js/i18n/" + langName + ".js", loaded)
 
 		loaded()
 	},

@@ -3,7 +3,7 @@ window.i18n.en = {
 	logout: "logout",
 	switchlang: "切换为中文",
 	rootname: "'s D-NOTE",
-	createtip: "Create a new note on the left",
+	createtip: "Create or open the note on the top-left",
 
 	menufilecreate: "New Note",
 	menudircreate: "New Directory",
@@ -88,7 +88,9 @@ window.i18n.en = {
 	wrongpage: "Note not exists",
 	loading: "Loading...",
 	passwordrequired: "Password Required",
-	shareby: "By"
+	shareby: "By",
+
+    errorimg: "Wrong image format or image size is too big"
 
 
 

@@ -15,10 +15,9 @@
     <script type="text/javascript" src="js/index.js" charset="utf-8"></script>
 
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script type="text/javascript" src="js/froala/js/froala_editor.pkgd.min.js" charset="utf-8"></script>
-    <link rel="stylesheet" defer href="js/froala/css/froala_editor.pkgd.min.css" type="text/css"/>
-    <link rel="stylesheet" defer href="js/froala/css/themes/dark.min.css" type="text/css"/>
     <link rel="stylesheet" defer href="css/editor.css" type="text/css"/>
+
+    <script type="text/javascript" src="js/ckeditor/ckeditor.js" charset="utf-8"></script>
 
 
     <meta http-equiv="Pragma" contect="no-cache"/>
@@ -50,7 +49,7 @@
             <script type="text/html" id="treetmpl">
                 <div class="tree-outer" treeid="{{id}}" left="{{left}}" parentId="{{parentId}}" createTime="{{createTime}}">
                     <div class="tree {{if left == -1}}root{{/if}}" style="padding-left:{{left * 25}}px;background: rgb({{color}}, {{color}}, {{color}})">
-                        <i class="tree-icon iconfont {{icon}} hover-icon"></i>
+                        <i class="tree-icon {{icon}} hover-icon"></i>
                         <div class="tree-name">{{text}}{{if left == -1}}<span i18n='rootname'></span>{{/if}}</div>
                         <div class="tree-rename"><input type="text"/></div>
                         {{if type === 0}}
@@ -69,17 +68,14 @@
         <div class="inset-container right-container">
             <div class="tip mission-tip">
                 <span i18n="createtip"></span>
-                <div class="tree">
-                    <i class="tree-icon iconfont icon-40one fade"></i>
-                    <div class="tree-name"><span class="nickname"></span><span i18n='rootname'></span></div>
-                    <i class=" iconfont icon-moreunfold fold"></i>
-                </div>
             </div>
 
             <div class="editor-outer">
                 <div id="title">
+                    <button class="save-button"><i class="fa fa-save"></i><span i18n="save"></span></button>
                     <input type="text" i18n-prop="placeholder:titleplaceholder"/>
                 </div>
+                <div id="toolbar-container"></div>
                 <div id="editor">
 
                 </div>
@@ -90,19 +86,19 @@
             <div class="context-menu-mask">
                 <div class="context-menu">
                     {{if type == 1}}
-                    <div class="menu-item" onclick="Note.edit({{id}})">{{"menuedit" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.edit({{id}})"><i class="fa fa-edit"></i> {{"menuedit" | i18n}}</div>
                     {{/if}}
                     {{if type == 0}}
-                    <div class="menu-item" onclick="Note.vcreate(1, {{id}})">{{"menufilecreate" | i18n}}</div>
-                    <div class="menu-item" onclick="Note.vcreate(0, {{id}})">{{"menudircreate" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.vcreate(1, {{id}})"><i class="fa fa-plus"></i> {{"menufilecreate" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.vcreate(0, {{id}})"><i class="fa fa-plus"></i> {{"menudircreate" | i18n}}</div>
                     {{/if}}
                     {{if left != -1}}
-                    <div class="menu-item" onclick="Note.remove({{id}})">{{"menudelete" | i18n}}</div>
-                    <div class="menu-item" onclick="Note.rename({{id}})">{{"menurename" | i18n}}</div>
-                    <div class="menu-item" onclick="Note.info({{id}})">{{"menuprop" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.remove({{id}})"><i class="fa fa-trash-o"></i> {{"menudelete" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.rename({{id}})"><i class="fa fa-magic"></i> {{"menurename" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.info({{id}})"><i class="fa fa-info-circle"></i> {{"menuprop" | i18n}}</div>
                     {{/if}}
                     {{if type == 1}}
-                    <div class="menu-item" onclick="Note.share({{id}})">{{"share" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.share({{id}})"><i class="fa fa-share-alt-square"></i> {{"share" | i18n}}</div>
                     {{/if}}
                 </div>
             </div>
