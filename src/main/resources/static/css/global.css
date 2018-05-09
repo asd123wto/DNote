@@ -33,13 +33,13 @@
 
 
 
-.layui-layer-loading .layui-layer-loading1,
-.layui-layer-loading .layui-layer-loading1:after {
+.layui-layer-loading .layui-layer-loading1, .loader,
+.layui-layer-loading .layui-layer-loading1:after, .loader:after {
   border-radius: 50%;
   width: 10em;
   height: 10em;
 }
-.layui-layer-loading .layui-layer-loading1 {
+.layui-layer-loading .layui-layer-loading1, .loader {
   margin: 4px auto;
   font-size: 10px;
   position: relative;
@@ -75,9 +75,38 @@
   }
 }
 
-.layui-layer-loading .layui-layer-loading1 {
+.layui-layer-loading .layui-layer-loading1, .loader {
   width: 20px!Important;
   height: 20px!Important;
   background: none!important;
 }
 
+
+.layui-layer-btn .layui-layer-btn0 {
+  background: #848484!important;
+  border: #848484!important;
+}
+
+.layui-layer-title {
+  background: #404040!important;
+  color: white!important;
+}
+
+a.layui-layer-ico.layui-layer-close.layui-layer-close1 {
+  filter: brightness(1000%)!important;
+}
+
+.layui-layer-dialog{
+  width: auto!important;
+  min-width: 360px!important;
+}
+
+.password input {
+  width: 80%;
+  padding: 13px;
+  font-size: 17px;
+  display: table;
+  margin: 20px auto;
+  border: 0;
+  background: gainsboro;
+}

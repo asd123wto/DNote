@@ -21,6 +21,6 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User get(@Param("id")Long id)
 
-    @Insert("insert into user (id, username, password, nickname, mail, vip) values(null, #{user.username}, #{user.password}, #{user.nickname}, #{user.mail}, #{user.vip})")
-    void insert(@Param("user") User user)
+    @Insert("insert into user (id, username, password, nickname, mail, vip) values(null, #{username}, #{password}, #{nickname}, #{mail}, #{vip})")
+    void insert(User user)
 }

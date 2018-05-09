@@ -1,4 +1,5 @@
 let RPSG = {
+    post: (url, data, callback) => RPSG.get({url: url, data: data, success: callback}),
     get: (options, _callback) => {
         let url = typeof (options) === "string" ? options : options.url;
         let callback = _callback || options.success;
@@ -19,36 +20,41 @@ let RPSG = {
             type: type,
             data: data,
             success: result => {
+                layer.closeAll('loading');
+
                 if(!result)
-                    return RPSG.tip("服务器发生错误（无响应）");
+                    return RPSG.tip(i18n.current["servererror"]);
 
                 let obj = JSON.parse(result);
 
-                if(obj.code !== 0 && postCode && obj.message)
-                    return RPSG.tip(obj.message);
+                if(obj.code !== 0 && postCode && obj.message){
+                    if(obj.message[0] === ":")
+                        obj.message = i18n.current[obj.message.substr(1)];
+
+	                return RPSG.tip(obj.message);
+                }
 
                 if(obj.code !== 0 && postCode)
-                    return RPSG.tip("服务器发生错误，错误码：" + obj.code);
-
-                layer.closeAll('loading');
+                    return RPSG.tip(i18n.current["servererrorwithcode"] + obj.code);
 
                 callback(obj.data);
 
 
             },
             error: obj => {
-                console.log(obj)
+                layer.closeAll('loading');
+
                 if(obj.responseJSON.status && obj.responseJSON.status !== 200){
-                    return RPSG.tip("服务器发生错误：(" + obj.status + ") " + obj.responseJSON.error + ", " + obj.responseJSON.exception + ", " + obj.responseJSON.message)
+                    return RPSG.tip(i18n.current["servererror"] + ":(" + obj.status + ") " + obj.responseJSON.error + ", " + obj.responseJSON.exception + ", " + obj.responseJSON.message)
                 }else{
-                    RPSG.tip("服务器发生错误（网络连接失败）");
+                    RPSG.tip(i18n.current["servererror"] + " (" + i18n.current["servernet"] + ")");
                 }
             }
         })
 
     },
     
-    tip: msg => layer.msg(msg, {offset: 't',}) & layer.closeAll('loading'),
+    tip: msg => layer.msg(msg, {offset: 't', tipsMore: true}),
 
     render: (id, data, clean) => {
         if((clean === undefined || clean === true) && $("#" + id).parent().find(".tmpled").length !== 0)
@@ -111,4 +117,77 @@ let RPSG = {
                     RPSG.cookies.remove(name[i]);
         },
     },
+
+	query: {
+		set: (param, paramVal, url) => {
+			let TheAnchor = null;
+			let newAdditionalURL = "";
+			url = url || location.href;
+			let tempArray = url.split("?");
+			let baseURL = tempArray[0];
+			let additionalURL = tempArray[1];
+			let temp = "";
+
+			if (additionalURL) {
+				let tmpAnchor = additionalURL.split("#");
+				let TheParams = tmpAnchor[0];
+				TheAnchor = tmpAnchor[1];
+				if (TheAnchor)
+					additionalURL = TheParams;
+
+				tempArray = additionalURL.split("&");
+
+				for (i = 0; i < tempArray.length; i++) {
+					if (tempArray[i].split('=')[0] !== param) {
+						newAdditionalURL += temp + tempArray[i];
+						temp = "&";
+					}
+				}
+			} else {
+				let tmpAnchor = baseURL.split("#");
+				let TheParams = tmpAnchor[0];
+				TheAnchor = tmpAnchor[1];
+
+				if (TheParams)
+					baseURL = TheParams;
+			}
+
+			if (TheAnchor)
+				paramVal += "#" + TheAnchor;
+
+			let rows_txt = temp + "" + param + "=" + paramVal;
+			return baseURL + "?" + newAdditionalURL + rows_txt;
+		},
+		get: (name, url) => {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+	},
+
+    confirm: (txt, callback) => {
+	    let lid = layer.confirm(txt, {btn: [i18n.current["yes"], i18n.current["no"]], title: i18n.current["layertitle"], shadeClose: true}, () => {
+		    callback()
+		    layer.close(lid)
+	    })
+    },
+
+	alert: (txt, callback, p) => {
+		let lid = layer.confirm(txt, {btn: [i18n.current["yes"]], title: i18n.current["layertitle"], shadeClose: true, offset: p || "auto"}, () => {
+			callback && callback()
+			layer.close(lid)
+		})
+	},
+
+    toDate: str => {
+        let comp = num => num <= 9 ? "0" + num : num
+
+        var d = new Date(str);
+        return d.getFullYear() + "-" + comp(d.getMonth() + 1) + "-" + comp(d.getDate()) + " " + comp(d.getHours()) + ":" + comp(d.getMinutes());
+    }
+
 }

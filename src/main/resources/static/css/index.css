@@ -34,8 +34,8 @@ header{
     background: #333;
     height: 50px;
     position: relative;
-    box-shadow: 0px 0px 10px #00000017;
-    z-index: 2;
+    box-shadow: 0px 0px 10px #1f1f1f99;
+    z-index: 20;
     color: white;
 }
 
@@ -71,11 +71,10 @@ header{
 .header-right .button{
     font-size: 20px;
     text-align: center;
-    padding: 0px 10px 0px 12px;
+    padding: 0px 17px 0px 18px;
     cursor: pointer;
     height: 50px!important;
     display: inline-block;
-    margin-left: 13px;
 }
 .header-right .button i{
     position: relative;
@@ -92,11 +91,11 @@ header{
     top: 45px;
     height: calc(100% - 45px);
     width: 100%;
+    background: #2b2b2b;
 }
 
 .inset-container{
     height: 100%;
-    width: 20px;
     position: absolute;
     display: table;
 }
@@ -104,6 +103,14 @@ header{
 .left-container{
     background-color: #6b6b6b;
     width: 280px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+}
+.tree-outer{
+    width: 100%;
 }
 .right-container{
     background-color: #2b2b2b;
@@ -112,13 +119,8 @@ header{
     display: table;
 }
 
-
-.tree, .tree-icon, .tree, .icon-edit{
-    transition-property: background-color;
-    transition-duration: 0.3s;
-}
-.tree .icon-edit{
-    transition-property: box-shadow;
+.tree .hover-icon{
+    transition-property: box-shadow, background-color;
     transition-duration: 0.3s;
 }
 .tree {
@@ -155,6 +157,7 @@ header{
     margin: 0 auto;
     margin-top: 20px;
     cursor: default!important;
+    position: relative;
 }
 
 
@@ -163,8 +166,9 @@ header{
 }
 
 .tree .fold{
-    float: right;
+    position: absolute;
     margin-right: 0;
+    right: 0;
 }
 
 .tree-icon:hover, .tip .tree-icon.hover,.tree .icon-edit:hover{
@@ -198,7 +202,7 @@ header{
 }
 
 
-.tree-name {
+.tree-name, .tree-rename {
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
@@ -207,17 +211,23 @@ header{
     vertical-align: middle;
 }
 
+.tree-rename{
+    display: none;
+    width: calc(100% - 83px);
+    overflow: visible;
+}
+
 .tree.root {
     background: #6b6b6b!important;
 }
 
-.tree.fold, .root{
+.tree.unfold, .root{
     box-shadow: 0 4px 7px #00000033;
     z-index: 9;
     position: relative;
 }
 
-.tree-children>.tree-outer:last-child .tree:not(.fold) {
+.last>.tree:not(.unfold) {
     box-shadow: inset 0 -8px 17px -6px #0000004f;
 }
 
@@ -227,6 +237,304 @@ header{
     padding-left: 10px;
 }
 
-.tree-children>.tree-outer:last-child .tree:not(.fold) .tree-icon:hover {
+.tree-children>.tree-outer:last-child .tree:not(.unfold) .hover-icon:hover {
     box-shadow: inset 0 -8px 17px -6px #0000004f;
+}
+
+.header-right a {
+    color: white;
+    padding-left: 20px;
+}
+
+.context-menu-mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 35;
+}
+
+.context-menu{
+    position: absolute;
+    background: #9a9a9a;
+    border: 1px solid #b1b1b1;
+    box-shadow: 6px 4px 10px #0000002e;
+}
+
+.menu-item {
+    color: white;
+    min-width: 180px;
+    padding: 7px 15px;
+    border-bottom: 1px solid #929292;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.context-menu .menu-item:last-child {
+    border-bottom: 0!important;
+}
+
+.menu-item:hover {
+    background: #a5a5a5;
+}
+
+.menu-item:active {
+    background: #c1c1c1;
+}
+
+button[data-cmd="save"] {
+    background: #6b6b6b!important;
+}
+
+button[data-cmd="save"]:hover {
+    background: #848484!important;
+}
+
+button[data-cmd="save"]:active {
+    background: #2e2e2e!important;
+}
+
+.editor-outer{
+    display: none;
+}
+
+#title input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 43px;
+    font-size: 18px;
+    background: #454545;
+    border: 0;
+    padding: 13px;
+    color: white;
+    outline: none;
+    transition-duration: 0.3s;
+    transition-property: background-color;
+}
+
+#title input:focus{
+    background: #545454;
+}
+
+
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.tree-rename input {
+    background: #757575;
+    border: 1px solid white;
+    padding: 5px;
+    color: white;
+    outline: none;
+    font-size: 16px;
+    width: 89%;
+}
+
+#share-password input {
+    width: 370px;
+    padding: 7px 10px;
+    box-sizing: border-box;
+    margin-top: 13px;
+}
+
+.share-title-fuck-ad {
+    font-size: 23px;
+    padding-bottom: 18px;
+}
+
+.share-subtitle {
+    padding: 17px 0;
+    padding-bottom: 0;
+}
+
+#share-password.shared input {
+    width: 450px;
+}
+
+a[i18n="switchlang"] {
+    padding-right: 14px;
+}
+
+.share-content-fuck-ad {
+    padding-top: 16px;
+    padding-left: 19px;
+    padding-right: 19px;
+}
+
+.share-content-title {
+    font-size: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 1px solid gainsboro;
+}
+
+button.delete-share {
+    position: absolute;
+    right: 0;
+    border: 0;
+    padding: 5px 10px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.share-content-url {
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.share-list-fuck-ad {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+button.delete-share:active {
+    background: #cccccc;
+}
+.share-content-url input {
+    border: 0;
+    width: 505px;
+    font-size: 14px;
+}
+
+.operations div, .button.op {
+    display: none;
+}
+
+body:after{
+    content: "0";
+    display:none;
+}
+
+
+@media (max-width: 630px){
+    .header-right{
+        display: none;
+    }
+    .tree-name, .tree-rename{
+        font-size: 0.9rem;
+    }
+    .left-container{
+        width: 100%;
+        display: none;
+    }
+
+    body:after{
+        content: "1"!important;
+        display:none;
+    }
+
+    .button.op{
+        display: inline-block;
+    }
+    .operations div{
+        color: white;
+        padding: 11px;
+        display: block;
+        cursor: pointer;
+        padding-left: 13px;
+    }
+
+    .operations div i{
+        display: inline-block;
+        margin-right: 20px;
+    }
+    .button.op{
+        width: 50px;
+        height: 100%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .logo-text{
+        display: inline-block;
+    }
+    .button.op i {
+        line-height: 49px;
+        display: table;
+        margin: 0 auto;
+        font-size: 1.4rem;
+    }
+
+    .right-container{
+        left: 0;
+        width: 100%;
+    }
+
+    .mission-tip>span{
+        font-size: 1.5rem;
+        margin: 0 auto;
+        display: table;
+    }
+    #share-password input, #share-password.shared input, .share-content-url input{
+        width: 100%;
+    }
+    .layui-layer-dialog{
+        width: 97%!important;
+        min-width: 0!important;
+    }
+    .share-title-fuck-ad{
+        font-size: 20px!Important;
+    }
+    .share-subtitle{
+        padding-top: 10px!important;
+    }
+
+    #title input{
+        font-size: 17px!important;
+    }
+
+    .share-content-url span{
+        display: none;
+    }
+
+    .share-list-fuck-ad{
+        height: auto;
+        max-height: initial;
+    }
+    /**...等我开发完了才知道froala收费……不是community版么？*/
+    a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+        display: none !important;
+        position: absolute;
+        top: -99999999px;
+    }
+
+
+}
+
+@media (max-width: 310px){
+    .subtitle{
+        display: none;
+    }
+
 }

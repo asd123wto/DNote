@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>D-NOTE</title>
+    <link rel="stylesheet" defer href="css/global.css" type="text/css"/>
+    <link rel="stylesheet" defer href="css/note.css" type="text/css"/>
+    <link rel="stylesheet" defer href="css/index.css" type="text/css"/>
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="js/i18n/i18n.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="js/layer/layer.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/note.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/common.js" charset="utf-8"></script>
+
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <meta http-equiv="Pragma" contect="no-cache"/>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">
+            <strong>D</strong>-NOTE<div class="subtitle" i18n="subtitle"></div>
+        </div>
+
+        <div class="header-right">
+            <a href="javascript: i18n.switchto()" i18n="switchlang" class="switchlang"></a>
+            <div class="lang button" i18n-prop="title:switchlang" onclick="i18n.switchto()'"><i class="fa fa-language"></i></div>
+            <div class="button" i18n-prop="title:login" onclick="location.href='/login.html'"><i class="fa fa-power-off"></i></div>
+        </div>
+    </header>
+
+    <div class="out-container">
+        <div class="html-container">
+            <div class="content-container">
+                <div class="title">TITLE</div>
+                <div class="share-people"><span i18n="shareby"></span>: <span class="people"></span></div>
+                <div class="content"></div>
+            </div>
+
+            <div class="has-not">
+                <div><i class="fa fa-close"></i></div>
+                <div i18n="wrongpage"></div>
+            </div>
+
+            <div class="loading-note">
+                <div class="loader"></div>
+                <div i18n="loading" class="loading-text"></div>
+            </div>
+
+            <div class="password">
+                <input type="text" i18n-prop="placeholder:passwordrequired"/>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

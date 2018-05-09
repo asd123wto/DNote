@@ -30,11 +30,11 @@ class LoginController{
         def user = userMapper.getByUsername(username)
 
         if(!user)
-            return Response.failed("用户不存在")
+            return Response.failed(":loginusernotfound")
 
 
         if(user.password != MD5.parse(password))
-            return Response.failed("密码错误")
+            return Response.failed(":loginwrongpassword")
 
         def token = Token.get(user.id)
 
@@ -56,13 +56,13 @@ class LoginController{
             return Response.failed("naive")
 
         if(userMapper.getByMail(mail))
-            return Response.failed("这个邮箱已经注册过了")
+            return Response.failed(":regemail")
 
         if(userMapper.getByUsername(username))
-            return Response.failed("这个用户名已经注册过了")
+            return Response.failed(":regusername")
 
-        if(key != "whosyourdaddy")
-            return Response.failed("口令错误")
+        if(key != "iloveyiyi")
+            return Response.failed(":reginvite")
 
         def user = new User()
 

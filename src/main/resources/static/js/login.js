@@ -62,3 +62,5 @@ function animateLogin() {
     }, 300);
 
 }
+
+i18n.to(RPSG.cookies.get("lang") || "cn")

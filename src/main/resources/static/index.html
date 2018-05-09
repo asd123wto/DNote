@@ -6,37 +6,57 @@
     <link rel="stylesheet" defer href="css/global.css" type="text/css"/>
     <link rel="stylesheet" defer href="css/index.css" type="text/css"/>
     <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="js/i18n/i18n.js" charset="utf-8"></script>
+
     <script type="text/javascript" src="js/layer/layer.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/art.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/common.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/index.js" charset="utf-8"></script>
 
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="js/froala/js/froala_editor.pkgd.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" defer href="js/froala/css/froala_editor.pkgd.min.css" type="text/css"/>
+    <link rel="stylesheet" defer href="js/froala/css/themes/dark.min.css" type="text/css"/>
+    <link rel="stylesheet" defer href="css/editor.css" type="text/css"/>
+
+
     <meta http-equiv="Pragma" contect="no-cache"/>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
 
     <header>
-        <div class="logo-text"><strong>D</strong>-NOTE<div class="subtitle">写给过去的自己</div></div>
+        <div class="button op" onclick="Note.switchTree()"><i class="fa fa-list"></i></div>
+
+        <div class="logo-text"><strong>D</strong>-NOTE<div class="subtitle" i18n="subtitle"></div></div>
 
         <div class="header-right">
             <div class="nickname"></div>
-            <div class="button" title="注销" onclick="RPSG.logout(true)"><i class="icon-logout iconfont"></i></div>
+            <a href="javascript: i18n.switchto()" i18n="switchlang"></a>
+            <div class="button" i18n-prop="title:myshare" onclick="Note.shareList()"><i class="fa fa-share-alt-square"></i></div>
+            <div class="button" i18n-prop="title:logout" onclick="RPSG.logout(true)"><i class="icon-logout iconfont"></i></div>
         </div>
     </header>
 
     <div class="out-container">
         <div class="inset-container left-container">
-
+            <div class="operations">
+                <div class="button" i18n-prop="title:switchlang" onclick="i18n.switchto()"><i class="fa fa-language"></i><span i18n="switchlang"></span></div>
+                <div class="button" i18n-prop="title:myshare" onclick="Note.shareList()"><i class="fa fa-share-alt-square"></i><span i18n="myshare"></span></div>
+                <div class="button" i18n-prop="title:logout" onclick="RPSG.logout(true)"><i class="icon-logout iconfont"></i><span i18n="logout"></span></div>
+            </div>
             <script type="text/html" id="treetmpl">
-                <div class="tree-outer" treeid="{{id}}" left="{{left}}" parentId="{{parentId}}">
+                <div class="tree-outer" treeid="{{id}}" left="{{left}}" parentId="{{parentId}}" createTime="{{createTime}}">
                     <div class="tree {{if left == -1}}root{{/if}}" style="padding-left:{{left * 25}}px;background: rgb({{color}}, {{color}}, {{color}})">
-                        <i class="tree-icon iconfont {{icon}}"></i>
-                        <div class="tree-name">{{text}}</div>
+                        <i class="tree-icon iconfont {{icon}} hover-icon"></i>
+                        <div class="tree-name">{{text}}{{if left == -1}}<span i18n='rootname'></span>{{/if}}</div>
+                        <div class="tree-rename"><input type="text"/></div>
                         {{if type === 0}}
                             <i class="iconfont icon-less fold"></i>
                         {{else}}
-                            <i class="iconfont icon-edit fold"></i>
+                            <i class="iconfont icon-edit hover-icon fold" onclick="Note.edit({{id}})"></i>
                         {{/if}}
                     </div>
                     <div class="tree-children">
@@ -47,15 +67,80 @@
         </div>
 
         <div class="inset-container right-container">
-            <div class="tip">
-                在左侧新建一篇笔记以进行编辑
+            <div class="tip mission-tip">
+                <span i18n="createtip"></span>
                 <div class="tree">
                     <i class="tree-icon iconfont icon-40one fade"></i>
-                    <div class="tree-name"><span class="nickname"></span>'s D-NOTE</div>
+                    <div class="tree-name"><span class="nickname"></span><span i18n='rootname'></span></div>
                     <i class=" iconfont icon-moreunfold fold"></i>
                 </div>
             </div>
+
+            <div class="editor-outer">
+                <div id="title">
+                    <input type="text" i18n-prop="placeholder:titleplaceholder"/>
+                </div>
+                <div id="editor">
+
+                </div>
+            </div>
         </div>
+
+        <script type="text/html" id="menutmpl">
+            <div class="context-menu-mask">
+                <div class="context-menu">
+                    {{if type == 1}}
+                    <div class="menu-item" onclick="Note.edit({{id}})">{{"menuedit" | i18n}}</div>
+                    {{/if}}
+                    {{if type == 0}}
+                    <div class="menu-item" onclick="Note.vcreate(1, {{id}})">{{"menufilecreate" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.vcreate(0, {{id}})">{{"menudircreate" | i18n}}</div>
+                    {{/if}}
+                    {{if left != -1}}
+                    <div class="menu-item" onclick="Note.remove({{id}})">{{"menudelete" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.rename({{id}})">{{"menurename" | i18n}}</div>
+                    <div class="menu-item" onclick="Note.info({{id}})">{{"menuprop" | i18n}}</div>
+                    {{/if}}
+                    {{if type == 1}}
+                    <div class="menu-item" onclick="Note.share({{id}})">{{"share" | i18n}}</div>
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="createsharetmpl">
+            <div class="share-create">
+                {{"sharecreateinfo" | i18n}}
+                <div id="share-password"><input type="text" placeholder='{{"sharepasswordplaceholder" | i18n}}'/></div>
+            </div>
+        </script>
+
+        <script type="text/html" id="sharetmpl">
+            <div class="share-info">
+                <div class="share-title-fuck-ad">{{"shareinfo" | i18n}}</div>
+                <div class="share-subtitle">{{"sharesubinfo" | i18n}}</div>
+                <div id="share-password" class="shared"><input type="text" value="http://note.rpsg.team/note.html?id={{share_id}}"/></div>
+            </div>
+        </script>
+
+        <script type="text/html" id="sharelisttmpl">
+            <div class="share-info">
+                <div class="share-title-fuck-ad">{{"myshare" | i18n}}</div>
+                <div class="share-list-fuck-ad">
+                    {{each data s}}
+                    <div class="share-content-fuck-ad" sid="{{s.share_id}}">
+                        <div class="share-content-title">
+                            <span>{{s.title}}</span>
+                            <button class="delete-share" onclick="Note.deleteShare('{{s.share_id}}')">{{"delete" | i18n}}</button>
+                            <div class="share-content-url">
+                                <span>{{"shareurl" | i18n}}: </span><input type="text" value="http://note.rpsg.team/note.html?id={{s.share_id}}"/>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </script>
     </div>
 
 </body>

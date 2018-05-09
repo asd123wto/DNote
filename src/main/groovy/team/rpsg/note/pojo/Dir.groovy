@@ -2,8 +2,8 @@ package team.rpsg.note.pojo;
 
 
 class Dir {
-    public int id
-    public int user
+    public long id
+    public long user
     public String name
     public String parent
     public Date create_time

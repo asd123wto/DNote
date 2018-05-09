@@ -11,7 +11,9 @@
     <script type="text/javascript" src="js/common.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/login.js" charset="utf-8" defer></script>
     <script type="text/javascript" src="js/dvalidate.js" charset="utf-8" defer></script>
+    <script type="text/javascript" src="js/i18n/i18n.js" charset="utf-8"></script>
     <meta http-equiv="Pragma" contect="no-cache"/>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
@@ -19,34 +21,34 @@
         <div class="v-center">
            <div class="login-outer ">
                <div class="login-inset-tip">
-                   欢迎回来，
+                   <span i18n="welcomeback"></span>，
                    <div id="username">test</div>
-                   <div class="tip">正在打开DNote……</div>
+                   <div class="tip" i18n="nowopen"></div>
                    <div class="head">
                        <img src="image/head.png"/>
                    </div>
                </div>
                <div class="login-inset-login">
                    <div class="logo-text"><strong>D</strong>-NOTE</div>
-                   <div class="beta">ALPHA TEST</div>
+                   <div class="beta" i18n="switchlang" onclick="i18n.switchto()"></div>
                    <form class="form login-form current" validate>
-                       <div class="text-field"><input name="username" type="text" placeholder="用户名" check="empty character"/></div>
-                       <div class="text-field"><input name="password" type="password" placeholder="密码" check="empty"/></div>
+                       <div class="text-field"><input name="username" type="text" i18n-prop="placeholder:username" check="empty character"/></div>
+                       <div class="text-field"><input name="password" type="password" i18n-prop="placeholder:password" check="empty"/></div>
                        <div class="buttons">
-                           <div class="login"><button type="button">登录</button></div>
-                           <div class="switcher"><button type="button">注册</button></div>
+                           <div class="login"><button type="button" i18n="login"></button></div>
+                           <div class="switcher"><button type="button" i18n="reg"></button></div>
                        </div>
                    </form>
                    <form class="form reg-form" validate>
-                       <div class="tip">DNOTE暂不对外开放，完成注册需要输入口令，<a href="https://weibo.com/2689640062/profile" target="_blank">联系我</a></div>
-                       <div class="text-field"><input name="key" type="text" placeholder="口令" check="empty"/></div>
-                       <div class="text-field"><input name="username" type="text" placeholder="用户名" check="empty character"/></div>
-                       <div class="text-field"><input name="mail" type="text" placeholder="邮箱" check="empty email"/></div>
-                       <div class="text-field"><input name="nickname" type="text" placeholder="昵称" check="empty"/></div>
-                       <div class="text-field"><input name="password" type="password" placeholder="密码" check="empty"/></div>
+                       <div class="tip"><span i18n="invite"></span><a i18n-prop="href:contacthref" target="_blank" i18n="contact"></a></div>
+                       <div class="text-field"><input name="key" type="text" i18n-prop="placeholder:invitecode" check="empty"/></div>
+                       <div class="text-field"><input name="username" type="text" i18n-prop="placeholder:username" check="empty character"/></div>
+                       <div class="text-field"><input name="mail" type="text" i18n-prop="placeholder:email" check="empty email"/></div>
+                       <div class="text-field"><input name="nickname" type="text" i18n-prop="placeholder:nickname" check="empty"/></div>
+                       <div class="text-field"><input name="password" type="password" i18n-prop="placeholder:password" check="empty"/></div>
                        <div class="buttons">
-                           <div class="reg"><button type="button">注册</button></div>
-                           <div class="switcher"><button type="button">返回</button></div>
+                           <div class="reg"><button type="button" i18n="reg"></button></div>
+                           <div class="switcher"><button type="button" i18n="back"></button></div>
                        </div>
                    </form>
                </div>
