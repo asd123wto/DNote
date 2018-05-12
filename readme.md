@@ -23,4 +23,4 @@ React的话写起来更麻烦就更算了hhh，这里有以前写的一个[用�
 4.Create redis server on localhost.<br>
 5.RUN!
 
-![Image](https://github.com/dingjibang/DNote/tree/master/readme/3.png)
+![Image](https://github.com/dingjibang/DNote/tree/master/readme/3.png) 
