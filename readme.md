@@ -1,8 +1,12 @@
 # DNote
-~~写给女朋友的~~练手，简单的基于html5开发的云笔记项目
+~~写给女朋友的~~练手，简单的基于html5开发的云笔记项目<br>
+Simple HTML5-base note
+
 <br>
 
-###仍在开发中，开发完了放网站和截图。
+[Online Demo(account: gittest, password: gittest)](http://note.rpsg.team)
+![Image](https://github.com/dingjibang/DNote/tree/master/readme/1.png)
+![Image](https://github.com/dingjibang/DNote/tree/master/readme/2.png)
 
 <br>
 这次项目主要后台是groovy + Spring Boot，数据库mysql。作为一个正经后端码农天天搞前端已经忘了后端怎么写了
@@ -13,4 +17,10 @@ React的话写起来更麻烦就更算了hhh，这里有以前写的一个[用�
 
 #如何部署
 	
-都写完了再说
+1.Clone<br>
+2.Create mysql DB named "note" then import from [note.sql](https://github.com/dingjibang/DNote/tree/master/note.sql)<br>
+3.Using IDEA (or ?) import via gradle.<br>
+4.Create redis server on localhost.<br>
+5.RUN!
+
+![Image](https://github.com/dingjibang/DNote/tree/master/readme/3.png)
