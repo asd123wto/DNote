@@ -11,6 +11,9 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericToStringSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
@@ -20,14 +23,12 @@ import team.rpsg.note.custom.UserMethodArgumentResolver
 
 import javax.servlet.MultipartConfigElement
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "team.rpsg.note")
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "team.rpsg.note.controller")
-class NoteApplication extends WebMvcConfigurerAdapter{
+class NoteApplication extends WebMvcConfigurerAdapter {
 
 	static void main(String[] args) {
-
 		SpringApplication.run NoteApplication.class, args
 	}
 
@@ -50,7 +51,7 @@ class NoteApplication extends WebMvcConfigurerAdapter{
 
 	@Bean
 	AuthenticationInterceptor AuthenticationInterceptor(){
-		return new AuthenticationInterceptor()
+		new AuthenticationInterceptor()
 	}
 
 	@Override
@@ -61,8 +62,8 @@ class NoteApplication extends WebMvcConfigurerAdapter{
 
 	@Override
 	void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		argumentResolvers.add(new UserMethodArgumentResolver())
-		super.addArgumentResolvers(argumentResolvers)
+		argumentResolvers.add new UserMethodArgumentResolver()
+		super.addArgumentResolvers argumentResolvers
 	}
 
 	@Override
@@ -72,9 +73,20 @@ class NoteApplication extends WebMvcConfigurerAdapter{
 
 	@Bean
 	MultipartConfigElement multipartConfigElement() {
-		MultipartConfigFactory factory = new MultipartConfigFactory()
-		factory.setMaxFileSize("10240KB")
-		factory.setMaxRequestSize("102400KB")
-		return factory.createMultipartConfig()
+        new MultipartConfigFactory(maxFileSize: 1024 * 1024, maxRequestSize: 102400 * 1024 * 1000).createMultipartConfig()
 	}
+
+    @Bean
+    public CorsFilter corsFilter() {
+        new CorsFilter(new UrlBasedCorsConfigurationSource(corsConfigurations: [
+                "/**": new CorsConfiguration(
+                    allowCredentials: true,
+                    allowedOrigins: ["*"],
+                    allowedHeaders: ["*"],
+                    allowedMethods: ["GET", "POST"]
+                )
+            ]
+        ))
+    }
+
 }
